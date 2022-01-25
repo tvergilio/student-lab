@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE</OriginalElement>
+  <nodes>
+    <node x="-86.0" y="-22.0">94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.STUDENT</node>
+    <node x="321.0" y="-22.0">94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE</node>
+    <node x="154.75" y="171.0">94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE_STUDENT</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE_STUDENT" target="94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.STUDENT" relationship="REFERENCES">
+      <point x="-39.75" y="-38.0" />
+      <point x="194.5" y="146.0" />
+      <point x="33.5" y="146.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE_STUDENT" target="94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE" relationship="REFERENCES">
+      <point x="39.75" y="-38.0" />
+      <point x="274.0" y="146.0" />
+      <point x="411.0" y="146.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="219.5" y="123.5" />
+  <SelectedNodes>
+    <node>94df1724-5c28-477b-9936-c346107d5ed3.TABLE:STUDENT.PUBLIC.COURSE</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
