@@ -2,6 +2,7 @@ package uk.ac.leedsbeckett.student.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,5 +18,6 @@ public class Course {
     private Double fee;
     @ManyToMany(mappedBy = "coursesEnrolledIn")
     @JsonIgnore
+    @ToString.Exclude
     Set<Student> studentsEnrolledInCourse;
 }

@@ -1,7 +1,5 @@
 package uk.ac.leedsbeckett.student.service
 
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,17 +8,14 @@ import org.springframework.hateoas.EntityModel
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.jdbc.Sql
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import spock.lang.Specification
 import uk.ac.leedsbeckett.student.model.Course
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase
 @ActiveProfiles("test")
 class CourseServiceTest extends Specification {
 
-    @InjectMocks
     @Autowired
     private CourseService courseService
 
@@ -69,5 +64,21 @@ class CourseServiceTest extends Specification {
         returnedCourse.getTitle() == "EHS"
         returnedCourse.getDescription() == "European History"
         returnedCourse.getFee() == 30.50
+    }
+
+    @Sql(["/clear-db.sql", "/insert-courses.sql"])
+    def "Testing UpdateCourseJson() modifies a record on the database"() {
+        given: "an existing course from the database"
+        Course course = courseService.getCourseByIdJson(1).content
+
+        when: "we modify the course"
+        course.setDescription("Dummy Course")
+
+        and: "save the changes to the database"
+        ResponseEntity<EntityModel<Course>> result = courseService.updateCourseJson(1, course)
+
+        then: "the changes are persisted"
+        result.getBody().content.id == 1
+        result.getBody().content.description == "Dummy Course"
     }
 }
