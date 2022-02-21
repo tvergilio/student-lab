@@ -3,9 +3,7 @@ package uk.ac.leedsbeckett.student.service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.jdbc.Sql
 import spock.lang.Specification
@@ -23,7 +21,7 @@ class CourseServiceIntegrationTest extends Specification {
     def 'Testing GetCourseJson() reads a course from the database'() {
 
         when: 'we read the Course from the database'
-        EntityModel<Course> result = courseService.getCourseByIdJson(1L)
+        def result = courseService.getCourseByIdJson(1L)
 
         then: 'all the attributes are fetched correctly'
         result.content.id == 1L
@@ -36,7 +34,7 @@ class CourseServiceIntegrationTest extends Specification {
     def 'Testing GetAllCourseJson() reads all courses from the database'() {
 
         when: 'we read the Course from the database'
-        CollectionModel<EntityModel<Course>> result = courseService.getAllCoursesJson()
+        def result = courseService.getAllCoursesJson()
 
         then: 'all three courses are fetched'
         result.getContent().size() == 3
@@ -51,16 +49,16 @@ class CourseServiceIntegrationTest extends Specification {
     def 'Testing createNewCourseJson() inserts a new record in the database'() {
 
         given: 'a new course'
-        Course course = new Course()
+        def course = new Course()
         course.title = 'EHS'
         course.description = 'European History'
         course.fee = 30.50
 
         when: 'we insert the course in the database'
-        ResponseEntity<EntityModel<Course>> result = courseService.createNewCourseJson(course)
+        def result = courseService.createNewCourseJson(course)
 
         then: 'the course is persisted'
-        Course returnedCourse = result.body.content
+        def returnedCourse = result.body.content
         returnedCourse.id > 0
 
         and: 'its attributes are as expected'
@@ -73,13 +71,13 @@ class CourseServiceIntegrationTest extends Specification {
     def 'Testing UpdateCourseJson() modifies a record on the database'() {
 
         given: 'an existing course from the database'
-        Course course = courseService.getCourseByIdJson(1).content
+        def course = courseService.getCourseByIdJson(1).content
 
         when: 'we modify the course'
         course.description = 'Dummy Course'
 
         and: 'save the changes to the database'
-        ResponseEntity<EntityModel<Course>> result = courseService.updateCourseJson(1, course)
+        def result = courseService.updateCourseJson(1, course)
 
         then: 'the changes are persisted'
         result.body.content.id == 1
