@@ -1,4 +1,4 @@
-package uk.ac.leedsbeckett.studentlab;
+package uk.ac.leedsbeckett.student;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class StudentLabApplication {
     public static void main(String[] args) {
         SpringApplication.run(StudentLabApplication.class, args);
     }
-
 }

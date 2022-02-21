@@ -1,4 +1,4 @@
-package uk.ac.leedsbeckett.studentlab.model;
+package uk.ac.leedsbeckett.student.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

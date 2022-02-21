@@ -1,5 +1,6 @@
-package uk.ac.leedsbeckett.studentlab.model;
+package uk.ac.leedsbeckett.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,5 +16,6 @@ public class Course {
     private String description;
     private Double fee;
     @ManyToMany(mappedBy = "coursesEnrolledIn")
+    @JsonIgnore
     Set<Student> studentsEnrolledInCourse;
 }

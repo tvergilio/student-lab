@@ -1,0 +1,3 @@
+INSERT INTO COURSE (ID, DESCRIPTION, FEE, TITLE) VALUES (1, 'Software Engineering for Service Computing', 10.0, 'SESC');
+INSERT INTO COURSE (ID, DESCRIPTION, FEE, TITLE) VALUES (2, 'Advanced Music Theory', 12.0, 'AMT');
+INSERT INTO COURSE (ID, DESCRIPTION, FEE, TITLE) VALUES (3, 'Philosophy of Science', 20.0, 'PHSC');
