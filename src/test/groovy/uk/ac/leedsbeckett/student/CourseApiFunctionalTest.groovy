@@ -67,6 +67,7 @@ class CourseApiFunctionalTest extends Specification {
               "description": "Medieval History",
               "fee": 25.5
             }/
+
         when: 'a POST request is sent to the courses endpoint'
         def response = client.post(path: 'courses', body: courseJson)
 
