@@ -7,14 +7,12 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.jdbc.Sql
 import spock.lang.Specification
-import uk.ac.leedsbeckett.student.model.Course
-import groovy.json.JsonOutput
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureTestDatabase
-@ActiveProfiles("test")
+@ActiveProfiles('test')
 class CourseApiFunctionalTest extends Specification {
-    def path = "http://localhost:8094/api/"
+    def path = 'http://localhost:8094/api/'
     def client
 
     def setup() {
@@ -52,7 +50,7 @@ class CourseApiFunctionalTest extends Specification {
             courses.size == 3
             courses.collect { c -> c.title } == ['SESC', 'AMT', 'PHSC']
             courses.collect { c -> c.description } == ['Software Engineering for Service Computing',
-                                                                         'Advanced Music Theory', 'Philosophy of Science']
+                                                       'Advanced Music Theory', 'Philosophy of Science']
             courses.collect { c -> c.fee } == [10.0, 12.0, 20.0]
             courses.collect { x -> x._links }.size() == 3
             data._links.containsKey 'self'
@@ -62,15 +60,13 @@ class CourseApiFunctionalTest extends Specification {
     @Sql('/clear-db.sql')
     def 'Test POST a course creates a new course on the database'() {
 
-        given: 'a brand-new course'
-        def course = new Course()
-        course.title = 'MHIS'
-        course.description = 'Medieval History'
-        course.fee = 25.5
-
-        and: 'its JSON representation'
-        def courseJson = JsonOutput.toJson(course)
-
+        given: 'a JSON representation of a course'
+        def courseJson = /
+            {
+              "title": "MHS",
+              "description": "Medieval History",
+              "fee": 25.5
+            }/
         when: 'a POST request is sent to the courses endpoint'
         def response = client.post(path: 'courses', body: courseJson)
 
@@ -78,7 +74,7 @@ class CourseApiFunctionalTest extends Specification {
         with(response) {
             status == 201
             data.id > 0
-            data.title == 'MHIS'
+            data.title == 'MHS'
             data.description == 'Medieval History'
             data.fee == 25.5
             data._links.containsKey 'self'
@@ -90,13 +86,12 @@ class CourseApiFunctionalTest extends Specification {
     def 'Test PUT a course updates an existing course on the database'() {
 
         given: 'the desired modifications on an existing course'
-        def course = new Course()
-        course.title = 'POL'
-        course.description = 'Political Theory'
-        course.fee = 54.2
-
-        and: 'its JSON representation'
-        def courseJson = JsonOutput.toJson(course)
+        def courseJson = /
+            {
+              "title": "POL",
+              "description": "Political Theory",
+              "fee": 54.2
+            }/
 
         when: 'a PUT request is sent to the API to modify the course with ID = 1'
         def response = client.put(path: 'courses/1', body: courseJson)
