@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql
 class CourseApplicationFunctionalSpec extends GebSpec {
 
     def setupSpec() {
-        System.setProperty("webdriver.gecko.driver", "C:\\Program Files\\WebDrivers\\geckodriver.exe")
+        System.setProperty('webdriver.gecko.driver', 'C:\\Program Files\\WebDrivers\\geckodriver.exe')
     }
 
     @Sql(['/clear-db.sql', '/insert-courses.sql'])
@@ -42,6 +42,10 @@ class CourseApplicationFunctionalSpec extends GebSpec {
         courses.last().text() == '3 PHSC Philosophy of Science 20.0'
 
         and: 'The correct text is displayed when I click the button'
-        assert withConfirm(true) { $('#okButton').click() } == "Thank you for visiting"
+        withConfirm(true) { $('#okButton').click() } == 'Thank you for visiting'
+
+        and: 'I am taken to the correct URL when I click the link'
+        $('a').click()
+        title == 'Discord | Your Place to Talk and Hang Out'
     }
 }
