@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Course List</h1>
-    <table>
+    <table id="courseTable">
         <tr th:each="course : ${courses}">
             <td th:text="${course.id}"/>
             <td th:text="${course.title}"/>

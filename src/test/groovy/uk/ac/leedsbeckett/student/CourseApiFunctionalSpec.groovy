@@ -11,7 +11,7 @@ import spock.lang.Specification
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureTestDatabase
 @ActiveProfiles('test')
-class CourseApiFunctionalTest extends Specification {
+class CourseApiFunctionalSpec extends Specification {
     def path = 'http://localhost:8094/api/'
     def client
 
