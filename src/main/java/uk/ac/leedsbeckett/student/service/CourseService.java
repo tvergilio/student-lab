@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import uk.ac.leedsbeckett.student.controller.CourseController;
 import uk.ac.leedsbeckett.student.model.Course;
+import uk.ac.leedsbeckett.student.model.CourseModelAssembler;
 import uk.ac.leedsbeckett.student.model.CourseRepository;
 
 import java.util.List;
@@ -20,15 +21,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final CourseModelAssembler courseModelAssembler;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, CourseModelAssembler courseModelAssembler) {
         this.courseRepository = courseRepository;
-    }
-
-    private EntityModel<Course> getCourseEntityModel (Course course) {
-        return EntityModel.of(course,
-                linkTo(methodOn(CourseController.class).getCourseJson(course.getId())).withSelfRel(),
-                linkTo(methodOn(CourseController.class).getCoursesJson()).withRel("courses"));
+        this.courseModelAssembler = courseModelAssembler;
     }
 
     public ResponseEntity<EntityModel<Course>> updateCourseJson(Long id, Course newCourse) {
@@ -37,12 +34,9 @@ public class CourseService {
         existingCourse.setDescription(newCourse.getDescription());
         existingCourse.setFee(newCourse.getFee());
         courseRepository.save(existingCourse);
-        EntityModel<Course> entityModel = EntityModel.of(existingCourse,
-                linkTo(methodOn(CourseController.class).getCourseJson(existingCourse.getId())).withSelfRel(),
-                linkTo(methodOn(CourseController.class).getCoursesJson()).withRel("courses"));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(entityModel);
+                .body(courseModelAssembler.toModel(existingCourse));
     }
 
     public List<Course> getAllCourses() {
@@ -52,7 +46,7 @@ public class CourseService {
     public CollectionModel<EntityModel<Course>> getAllCoursesJson() {
         List<EntityModel<Course>> courseList = courseRepository.findAll()
                 .stream()
-                .map(this::getCourseEntityModel)
+                .map(courseModelAssembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(courseList, linkTo(methodOn(CourseController.class)
                 .getCoursesJson())
@@ -62,16 +56,12 @@ public class CourseService {
     public EntityModel<Course> getCourseByIdJson(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course with id " + id + " not found."));
-        return EntityModel.of(course,
-                linkTo(methodOn(CourseController.class).getCourseJson(course.getId())).withSelfRel(),
-                linkTo(methodOn(CourseController.class).getCoursesJson()).withRel("courses"));
+        return courseModelAssembler.toModel(course);
     }
 
     public ResponseEntity<EntityModel<Course>> createNewCourseJson(Course newCourse) {
         Course savedCourse = courseRepository.save(newCourse);
-        EntityModel<Course> entityModel = EntityModel.of(savedCourse,
-                linkTo(methodOn(CourseController.class).getCourseJson(savedCourse.getId())).withSelfRel(),
-                linkTo(methodOn(CourseController.class).getCoursesJson()).withRel("courses"));
+        EntityModel<Course> entityModel = courseModelAssembler.toModel(savedCourse);
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

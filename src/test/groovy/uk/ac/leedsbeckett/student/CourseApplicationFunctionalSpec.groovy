@@ -38,7 +38,7 @@ class CourseApplicationFunctionalSpec extends GebSpec {
         courses.size() == 3
 
         courses.first().text() == '1 SESC Software Engineering for Service Computing 10.0'
-        courses.getAt(1).text() == '2 AMT Advanced Music Theory 12.0'
+        courses[1].text() == '2 AMT Advanced Music Theory 12.0'
         courses.last().text() == '3 PHSC Philosophy of Science 20.0'
 
         and: 'The correct text is displayed when I click the button'
