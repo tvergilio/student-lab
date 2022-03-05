@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+</head>
+<body>
+    <h2 th:inline="text">Student Profile</h2>
+    <!--/*@thymesVar id="student" type="uk.ac.leedsbeckett.student.Student"*/-->
+    <p th:inline="text">First Name: [[${student.forename}]]</p>
+    <p th:inline="text">Surname: [[${student.surname}]]</p>
+    <p th:inline="text">Student ID: [[${student.externalStudentId}]]</p>
+</body>
+</html>
