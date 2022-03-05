@@ -1,6 +1,5 @@
 package uk.ac.leedsbeckett.student.service;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,13 +81,6 @@ class CourseServiceTest {
         assertThrows(RuntimeException.class, () -> courseService.getCourseByIdJson(null),
                 "Exception was not thrown.");
         verify(courseModelAssembler, times(0)).toModel(any());
-    }
-
-    @Test
-    void testCourseById_withValidID_ReturnsExistingCourse() {
-        EntityModel<Course> result = courseService.getCourseByIdJson(courseId);
-        assertEquals(courseId, result.getContent().getId());
-        verify(courseModelAssembler, times(1)).toModel(course);
     }
 
 }
